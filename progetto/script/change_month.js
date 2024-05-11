@@ -1,5 +1,6 @@
 var calendar = document.getElementById("calendar");
-var months = document.querySelectorAll(".month")
+var months = document.querySelectorAll(".month");
+var events_btn = document.querySelectorAll(".visual-event");
 const nameMonth = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto','Settembre','Ottobre','Novembre','Dicembre'];
 const today = new Date().getDate();
 const month = new Date().getMonth();
@@ -8,7 +9,7 @@ const year = new Date().getFullYear();
     // Inizializzazione del calendario al primo avvio 
 function initCalendar(){
     setMonth(month)
-    createCalendar(year, month);
+    createCalendar(year, month, today);
 
     let selectedDay = document.getElementById("selected-day");
     let selectedMonth = document.getElementById("selected-month");
@@ -38,10 +39,11 @@ function daysMonth(anno, mese) {
 	return new Date(anno, mese, 0).getDate();
 }
     // Crea il calendaro inserendone i giorni
-function createCalendar(anno, mese) {
+function createCalendar(anno, mese, giorno) {
     let loop = calendar.childElementCount; // Numero degli elementi presenti nel div con l'attributo "id=calendar"
+        // Rimuove tutti gli elementi all'interno della pagina del calendario
     for(let i = 0; i < loop; i ++){
-        calendar.removeChild(calendar.firstChild);
+        calendar.removeChild(calendar.lastChild);
     }
 
 	let firstDay = firstDayMonth(anno, mese);
@@ -63,16 +65,16 @@ function createCalendar(anno, mese) {
     }
     let day = 1;
     let monthStart = 1;
-        // Inserimento delle caselle dei giorni
+        // Inserimento delle caselle dei giorni fino all'ultimo giorno del mese
 	while(day <= monthDay){
             // Inserimento di caselle vuote per posizionare correttamente i giorni in base al giorno della settimana
         if(monthStart < firstDay){
             let daysDiv = document.createElement("div");
             calendar.appendChild(daysDiv);
             monthStart++;
-        }else{
+        }else{  // Inserisce le caselle dei giorni
             let daysDiv = document.createElement("div");
-            if(day != today){
+            if(day != giorno){
                 daysDiv.classList.add("day");
                 daysDiv.innerHTML= day;
             }else{
@@ -80,6 +82,9 @@ function createCalendar(anno, mese) {
                 daysDiv.innerHTML= day;
             }
 
+            // TODO: Chiamate php per controllare la presenza di eventi nel giorno che sta venendo aggiunto
+            // Bottone da aggiungere in caso di evento 
+            // <button class="visual-event" onclick="visualEvent()"></button>
             calendar.appendChild(daysDiv);
 
             day ++;
@@ -101,11 +106,25 @@ function setMonth(mese){
     // Funzione che viene richiamata dai bottoni per cambiare il mese visualizzato
 function changeMonth(event){
     let selectedMonth = event.currentTarget.value;
-        // console.log(selectedMonth);
     let monthTxt = document.getElementById("selected-month");
-    monthTxt.innerText = nameMonth[selectedMonth];
-    setMonth(selectedMonth)
-    createCalendar(year, selectedMonth);
+    let dayTxt = document.getElementById("selected-day");
+        // console.log(selectedMonth);
+    if(selectedMonth != month){
+        monthTxt.innerText = nameMonth[selectedMonth];
+        dayTxt.innerText = 1;
+        setMonth(selectedMonth)
+        createCalendar(year, selectedMonth, 1);
+    }else{
+        monthTxt.innerText = nameMonth[month];
+        dayTxt.innerText = today;
+        setMonth(month)
+        createCalendar(year, month, today);
+    }
+}
+
+function visualEvent(){
+    // TODO: Funzione per visualizzare gli eventi di un determinato giorno selezionato dall'utente
+
 }
 
     // console.log(months);
@@ -116,4 +135,7 @@ initCalendar();
     // Ascoltatore collegato al bottone per cambiare il mese
 months.forEach(value => {
     value.addEventListener("click", changeMonth);
+});
+events_btn.forEach(value => {
+    value.addEventListener("click", visualEvent);
 });
