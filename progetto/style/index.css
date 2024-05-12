@@ -11,3 +11,14 @@
     left: 0%;
     right: 0%;
 }
+.center-text{
+    position: inherit;
+    align-content: center;
+    display: grid;
+    padding-top: 25%;
+    padding-bottom: 25%;
+    left: 15%;
+    right: 15%;
+    grid-template-rows: 50%;
+    grid-template-columns: 35% 35%;
+}
