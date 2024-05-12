@@ -40,6 +40,7 @@ function daysMonth(anno, mese) {
 }
     // Crea il calendaro inserendone i giorni
 function createCalendar(anno, mese, giorno) {
+        // console.log("crea calendario");
     let loop = calendar.childElementCount; // Numero degli elementi presenti nel div con l'attributo "id=calendar"
         // Rimuove tutti gli elementi all'interno della pagina del calendario
     for(let i = 0; i < loop; i ++){
@@ -81,10 +82,24 @@ function createCalendar(anno, mese, giorno) {
                 daysDiv.classList.add("today");
                 daysDiv.innerHTML= day;
             }
+            // TODO: Da implementare con il codice php
+            // let xhr = new XMLHttpRequest();
+            // xhr.open("POST", "controlla_eventi.php", true);
+            // xhr.onreadystatechange = function() {
+            //     if (xhr.readyState === XMLHttpRequest.DONE) {
+            //         if (xhr.status === 200) {
+            //             if(xhr.responseText == "true"){
+            //                 let btn_event = document.createElement("button");
 
-            // TODO: Chiamate php per controllare la presenza di eventi nel giorno che sta venendo aggiunto
-            // Bottone da aggiungere in caso di evento 
-            // <button class="visual-event" onclick="visualEvent()"></button>
+            //                 btn_event.classList.add("visual-event");
+            //                 btn_event.setAttribute("onclick", "visualEvent()");
+                        
+            //                 daysDiv.appendChild(btn_event);
+            //             }
+            //         }
+            //     }
+            // };
+            // xhr.send();
             calendar.appendChild(daysDiv);
 
             day ++;
@@ -96,8 +111,10 @@ function setMonth(mese){
     let i = 0;
     months.forEach(element => {
         if(i != mese){
+                // console.log("unactive");
             element.classList.replace("active", "unactive");
         }else{
+                // console.log("active");
             element.classList.replace("unactive", "active");
         }
         i++;
@@ -108,17 +125,19 @@ function changeMonth(event){
     let selectedMonth = event.currentTarget.value;
     let monthTxt = document.getElementById("selected-month");
     let dayTxt = document.getElementById("selected-day");
+    let lastDay = daysMonth(year, selectedMonth);  
+        // console.log(lastDay);
         // console.log(selectedMonth);
-    if(selectedMonth != month){
+    if(today > lastDay){
         monthTxt.innerText = nameMonth[selectedMonth];
-        dayTxt.innerText = 1;
+        dayTxt.innerText = lastDay;
         setMonth(selectedMonth)
-        createCalendar(year, selectedMonth, 1);
+        createCalendar(year, selectedMonth, lastDay);
     }else{
-        monthTxt.innerText = nameMonth[month];
+        monthTxt.innerText = nameMonth[selectedMonth];
         dayTxt.innerText = today;
-        setMonth(month)
-        createCalendar(year, month, today);
+        setMonth(selectedMonth)
+        createCalendar(year, selectedMonth, today);
     }
 }
 
