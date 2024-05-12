@@ -82,7 +82,7 @@ function createCalendar(anno, mese, giorno) {
                 daysDiv.classList.add("today");
                 daysDiv.innerHTML= day;
             }
-            // TODO: Da implementare con il codice php
+            // TODO: Da verificarne il funzionamento
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "controlla_eventi.php", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // Imposta l'intestazione Content-Type per POST
