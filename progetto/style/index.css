@@ -22,3 +22,13 @@
     grid-template-rows: 50%;
     grid-template-columns: 35% 35%;
 }
+.ms-6{
+
+
+  margin-left: 25% !important;
+}
+.me-6{
+
+
+  margin-right: 25% !important;
+}
