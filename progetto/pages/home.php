@@ -43,7 +43,7 @@
         <header>
                 <!-- Barra per visualizzare l'utente e disconnettersi -->
             <div class="user-bar">
-                <div class="action">
+                <div class="action">    
                     <span class="username">
                         <?php
                             echo $_SESSION["nome_utente"];
