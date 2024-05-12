@@ -41,7 +41,7 @@
   background-image: url("../images/home.jpg");
   background-repeat: no-repeat;
   background-size: contain;
-  
+  alt: Calendario;
 }
 .footer{
   position: absolute;
