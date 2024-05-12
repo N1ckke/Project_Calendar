@@ -17,7 +17,8 @@ if(!empty($_POST["nome"]) && !empty($_POST["cognome"]) && !empty($_POST["nome_ut
         if($res->num_rows>0){
             echo "Questo nome utente è già stato utilizzato";
         }else{
-            $sql="INSERT INTO utenti(nome, cognome, nome_utente, email, password) VALUES ('$nome','$cognome','$nome_utente','$email','$password')";
+            $sql="INSERT INTO utenti(nome, cognome, nome_utente, email, password) 
+                VALUES ('$nome','$cognome','$nome_utente','$email','$password')";
             if($conn->query($sql)===TRUE){
                 echo "Utente registrato";
                 header("Location: ../pages/login.html");

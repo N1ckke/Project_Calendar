@@ -1,3 +1,7 @@
+<?php
+    require "connect.php";
+    session_start();
+?> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,7 +41,9 @@
             <div class="user-bar">
                 <div class="action">
                     <span class="username">
-                        Username
+                        <?php
+                            echo $_SESSION["nome_utente"];
+                        ?>
                     </span>
                     <button href="#" class="logout">
                         Logout

@@ -9,9 +9,12 @@
         $ora = $_POST['ora'];
         $email = $_SESSION['email'];
 
-        $sql="INSERT INTO note(titolo,data,ora) VALUES ('$titolo','$data','$ora')";
+        $sql="INSERT INTO note(titolo,data,ora) 
+            VALUES ('$titolo','$data','$ora')";
             if($conn->query($sql)===TRUE){
-                $sql="INSERT INTO utenti_note(ID_nota, ID_utente) Values ((SELECT ID FROM UTENTE WHERE email = '$email'),(SELECT ID FROM note WHERE data = '$data')";
+                $sql="INSERT INTO utenti_note(ID_nota, ID_utente) 
+                    Values ((SELECT ID FROM UTENTE WHERE email = '$email'),
+                    (SELECT ID FROM note WHERE data = '$data')";
                 if($conn->query($sql)===TRUE){
                     header("Location: ../pages/home.html");
                 }else{

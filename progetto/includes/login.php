@@ -5,7 +5,8 @@ session_start();
 if(!empty($email) && !empty($password)){
     $email = $_POST['email'];
     $password = md5($_POST['password']);
-	$sql = "SELECT * FROM utenti WHERE email = '$email' AND password = '$password'";
+	$sql = "SELECT * FROM utenti WHERE email = '$email' 
+			AND password = '$password'";
 	$res = $conn -> query($sql);
 	if($res -> num_rows > 0){
 		$_SESSION["email"] = $email;

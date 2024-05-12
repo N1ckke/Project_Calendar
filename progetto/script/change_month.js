@@ -83,23 +83,27 @@ function createCalendar(anno, mese, giorno) {
                 daysDiv.innerHTML= day;
             }
             // TODO: Da implementare con il codice php
-            // let xhr = new XMLHttpRequest();
-            // xhr.open("POST", "controlla_eventi.php", true);
-            // xhr.onreadystatechange = function() {
-            //     if (xhr.readyState === XMLHttpRequest.DONE) {
-            //         if (xhr.status === 200) {
-            //             if(xhr.responseText == "true"){
-            //                 let btn_event = document.createElement("button");
-
-            //                 btn_event.classList.add("visual-event");
-            //                 btn_event.setAttribute("onclick", "visualEvent()");
-                        
-            //                 daysDiv.appendChild(btn_event);
-            //             }
-            //         }
-            //     }
-            // };
-            // xhr.send();
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "controlla_eventi.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // Imposta l'intestazione Content-Type per POST
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Assicura che il tipo di risposta sia coerente con quello che ti aspetti
+                        if(xhr.responseText.trim() === "true") { // Rimuovi gli spazi vuoti dalla risposta
+                            // Crea e aggiunge un pulsante solo se la risposta è "true"
+                            var btn_event = document.createElement("button");
+                            btn_event.className = "visual-event"; // Utilizza className invece di classList.add()
+                            btn_event.textContent = "Visualizza evento"; // Aggiungi del testo al pulsante
+                            btn_event.onclick = visualEvent; // Utilizza il nome della funzione senza parentesi
+                            daysDiv.appendChild(btn_event);
+                        }
+                    } else {
+                        console.error("Errore nella richiesta: " + xhr.status); // Gestione degli errori
+                    }
+                }
+            };
+            xhr.send();
             calendar.appendChild(daysDiv);
 
             day ++;
@@ -142,7 +146,7 @@ function changeMonth(event){
 }
 
 function visualEvent(){
-    // TODO: Funzione per visualizzare gli eventi di un determinato giorno selezionato dall'utente
+    // TODO: Funzione con chiamate AJAX per visualizzare gli eventi di un determinato giorno selezionato dall'utente
 
 }
 

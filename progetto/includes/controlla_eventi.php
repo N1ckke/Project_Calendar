@@ -9,11 +9,14 @@
         $mail = $_SESSION['mail'];
 
 
-        $sql = "SELECT note.data, utenti.email FROM utenti_note INNER JOIN note ON utenti_note.ID_nota = note.ID INNER JOIN utenti ON utenti_note.ID_utente = utenti.ID WHERE utenti.email = '$mail' AND note.data = '$data'";
+        $sql = "SELECT note.data, utenti.email FROM utenti_note 
+                INNER JOIN note ON utenti_note.ID_nota = note.ID 
+                INNER JOIN utenti ON utenti_note.ID_utente = utenti.ID 
+                WHERE utenti.email = '$mail' AND note.data = '$data'";
         if($res -> num_rows > 0){
-            return true;
+            return "true";
         }else{
-            return false;
+            return "false";
         }
 
     }
