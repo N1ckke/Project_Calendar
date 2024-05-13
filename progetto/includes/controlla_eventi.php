@@ -3,20 +3,25 @@
     include "connect.php";
     session_start();
 
-    if(!empty($_POST["titolo"]) && !empty($_POST["data"]) && !empty($_POST["ora"]) && isset($_SESSION["email"])){
+    if(!empty($_POST["data"]) && isset($_SESSION["email"])){
+        $data = date("Y-m-d", strtotime($_POST['data']));
 
         $data = $_POST['data'];
-        $mail = $_SESSION['mail'];
+        $email = $_SESSION['email'];
 
 
-        $sql = "SELECT note.data, utenti.email FROM utenti_note 
+        $sql = "SELECT note.data_evento, utenti.email FROM utenti_note 
                 INNER JOIN note ON utenti_note.ID_nota = note.ID 
                 INNER JOIN utenti ON utenti_note.ID_utente = utenti.ID 
-                WHERE utenti.email = '$mail' AND note.data = '$data'";
-        if($res -> num_rows > 0){
-            return "true";
-        }else{
-            return "false";
+                WHERE utenti.email = '$email' AND note.data_evento = '$data'";
+
+        $res = $conn->query($sql);
+
+        if ($res && $res->num_rows > 0) {
+            echo "true";
+        } else {
+            echo "false";
+            
         }
 
     }

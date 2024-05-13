@@ -53,8 +53,14 @@ aside{
 .event-list{
     position: inherit;
     display: grid;
-    grid-template-columns: 75% 20% 5%;
+    grid-template-columns: 100%;
     grid-template-rows: auto;
+}
+.event-item{
+    position: inherit;
+    display: grid;
+    grid-template-columns: 75% 20% 5%;
+    grid-template-rows: 100%;
 }
 .event-text{
     text-align: start;
@@ -200,11 +206,11 @@ aside{
     background-color: gainsboro;
     border-color: black;
     border-style: solid;
-    border-width: 0px;
-    border-bottom-width: .5px;
+    border-width: .5px;
     margin-left: 2.5%;
     margin-right: 2.5%;
     margin-bottom: 1%;
+    border-radius: 20px;
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 80% 10%;
@@ -214,9 +220,9 @@ aside{
     background-color: gainsboro;
     border-color: red;
     border-style: solid;
-    border-width: 0px;
-    border-bottom-width: .5px;
+    border-width: .5px;
     margin-left: 2.5%;
+    border-radius: 20px;
     margin-right: 2.5%;
     margin-bottom: 1%;
 }
