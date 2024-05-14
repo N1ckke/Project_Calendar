@@ -87,8 +87,8 @@ function createCalendar(anno, mese) {
                 daysDiv.classList.add("day");
                 daysDiv.innerHTML= day;
             }
-            // TODO: Da sistemare il mese dell'evento
-            checkEvents(mese + 1, day, daysDiv);
+                // Risolto
+            checkEvents(mese, day, daysDiv);
             calendar.appendChild(daysDiv);
 
             day ++;
@@ -97,6 +97,8 @@ function createCalendar(anno, mese) {
 }
     // Controlla se sono presenti eventi
 function checkEvents(mese, giorno, div) {
+    mese++;
+        // console.log(mese);
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "../includes/controlla_eventi.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
