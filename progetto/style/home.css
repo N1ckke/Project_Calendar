@@ -216,25 +216,18 @@ aside{
     grid-template-rows: 80% 10%;
 }
 .today{
-    position: relative;
+    position: center center;
     background-color: gainsboro;
     border-color: red;
     border-style: solid;
     border-width: .5px;
     margin-left: 2.5%;
-    border-radius: 20px;
     margin-right: 2.5%;
     margin-bottom: 1%;
-}
-.current-day{
-    position: relative;
-    background-color: gainsboro;
-    border-color: red;
-    border-style: solid;
-    border-width: 0px;
-    border-bottom-width: .25px;
-    margin-left: 2.5%;
-    margin-right: 2.5%;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 80% 10%; 
 }
 .visual-event{
     position: relative;

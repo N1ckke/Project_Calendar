@@ -128,22 +128,22 @@ function visualEvent(data) {
                     var eventList = document.querySelector(".event-list");
                     eventList.innerHTML = "";
                     eventi.forEach(function(evento, index) {
-                        var eventDiv = document.createElement("div");
-                        eventDiv.classList.add("evento");
-                        eventDiv.setAttribute("id", "evento-" + index);
-                        var title = document.createElement("span");
+                        var item = document.createElement("div");
+                        item.classList.add("evento-item");
+                        item.setAttribute("id", "evento-" + index);
+                        var title = document.createElement("div");
                         title.textContent = evento.titolo;
-                        var ora = document.createElement("span");
-                        ora.textContent = evento.ora_evento;
+                        var ora = document.createElement("div");
+                        ora.innerHTML = evento.ora_evento;
                         var btnElimina = document.createElement("button");
-                        btnElimina.textContent = "Elimina";
+                        btnElimina.classList.add("event-icon");
                         btnElimina.onclick = function() {
                             eliminaEvento(evento.ID);
                         };
-                        eventDiv.appendChild(title);
-                        eventDiv.appendChild(ora);
-                        eventDiv.appendChild(btnElimina);
-                        eventList.appendChild(eventDiv);
+                        item.appendChild(title);
+                        item.appendChild(ora);
+                        item.appendChild(btnElimina);
+                        eventList.appendChild(item);
                     });
                 } else {
                     document.querySelector(".event-text").textContent = "Non ci sono eventi programmati per questo giorno.";
@@ -163,30 +163,29 @@ function eliminaEvento(id) {
 
 
 
-function createEventDiv(evento, id) {
-    var eventDiv = document.createElement("div");
-    eventDiv.id = "event-" + id;
-    eventDiv.classList.add("event-item");
+// function createEventDiv(evento, id) {
+//     var eventDiv = document.createElement("div");
+//     eventDiv.id = "event-" + id;
+//     eventDiv.classList.add("event-item");
 
-    var title = document.createElement("span");
-    title.textContent = evento.titolo;
+//     var title = document.createElement("span");
+//     title.textContent = evento.titolo;
 
-    var ora = document.createElement("span");
-    ora.textContent = evento.ora;
+//     var ora = document.createElement("span");
+//     ora.textContent = evento.ora;
 
-    var btn = document.createElement("button");
-    btn.className = "event-icon";
-    btn.textContent = "Elimina";
-    btn.onclick = function() {
-        eliminaEvento(id);
-    };
+//     var btn = document.createElement("button");
+//     btn.className = "event-icon";
+//     btn.onclick = function() {
+//         eliminaEvento(id);
+//     };
 
-    eventDiv.appendChild(title);
-    eventDiv.appendChild(ora);
-    eventDiv.appendChild(btn);
+//     eventDiv.appendChild(title);
+//     eventDiv.appendChild(ora);
+//     eventDiv.appendChild(btn);
 
-    return eventDiv;
-}
+//     return eventDiv;
+// }
 
 
 initCalendar();

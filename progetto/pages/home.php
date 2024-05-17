@@ -24,7 +24,7 @@
             <div class="day-month-event">
                 <div class="selected-day-month">
                     <span id="selected-day" class="selected-day"></span>
-                    <span id="selected-month" class="selected-month"></span>
+                    <span id="selected-month" class="selected-month">Visualizza eventi</span>
                     <span id="selected-year" class="selected-year"></span>
                 </div>
                     <!-- Bottone che reindirizza ad una pagiona per aggiungere un altro evento nel giorno selezionato -->
@@ -34,16 +34,16 @@
                             window.location.href = 'nuova_nota.php';
                         }
                 </script>
-                <div class="event-list-bar" id="1">
+                <div class="event-list-bar">
                     <div class="scheduled-event">Eventi Programmati</div>
                     <!-- Da rimuovere si aggiungera' poi in automatico -->
-                    <!-- INIZIO RIMOZIONE -->
                     <div class="event-list">
-                    <div class="event-text">Non sono presenti eventi programmati</div>
+                        <!-- INIZIO RIMOZIONE -->
+                    <!-- <div class="event-text">Non sono presenti eventi programmati</div>
                     <div class="event-clock"></div>
-                    <button class="event-icon" hidden></button>
+                    <button class="event-icon"></button> -->
+                        <!-- FINE RIMOZIONE -->
                     </div>
-                    <!-- FINE RIMOZIONE -->
                 </div>
             </div>
         </aside>

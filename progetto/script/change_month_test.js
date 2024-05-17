@@ -10,14 +10,6 @@ const year = new Date().getFullYear();
 function initCalendar(){
     setMonth(month)
     createCalendar(year, month);
-
-    let selectedDay = document.getElementById("selected-day");
-    let selectedMonth = document.getElementById("selected-month");
-    let selectedYear = document.getElementById("selected-year");
-
-    selectedDay.innerText = today;
-    selectedYear.innerText = year;
-    selectedMonth.innerText = nameMonth[month];
 }
 
     // Ritorna il giorno della settimana del primo giorno del mese esempio: 1 = lunedi'
@@ -90,6 +82,8 @@ function createCalendar(anno, mese) {
                 // Risolto
             checkEvents(mese, day, daysDiv);
             calendar.appendChild(daysDiv);
+                // Da sistemare
+            // visualEvent(mese, day);
 
             day ++;
         }
@@ -108,8 +102,6 @@ function checkEvents(mese, giorno, div) {
                 if (xhr.responseText === "true") {
                     addButtonEvent(div, mese, giorno);
                 }
-            } else {
-                console.error("Errore nella richiesta: " + xhr.status);
             }
         }
     };
@@ -117,12 +109,12 @@ function checkEvents(mese, giorno, div) {
     xhr.send("data=" + year + "-" + mese + "-" + giorno);
 }
     //In caso siano presenti eventi aggiunge il bottone per visualizzarli
-function addButtonEvent(div, mese, day) {
+function addButtonEvent(div, mese, giorno) {
     var btn_event = document.createElement("button");
     btn_event.className = "visual-event";
-    // btn_event.onclick = function() {
-    //     visualEvent(year, mese, day, selectedMonth);
-    // };
+    btn_event.onclick = function() {
+        visualEvent(mese, giorno);
+    };
     div.appendChild(btn_event);
 }
     // Sostituisce la classe del mese selezionato con "active" e gli altri con "unactive"
@@ -154,9 +146,9 @@ function visualEvent(mese, giorno) {
     let selectedMonth = document.getElementById("selected-month");
     let selectedYear = document.getElementById("selected-year");
 
-    selectedDay.innerText = today;
+    selectedDay.innerText = giorno;
     selectedYear.innerText = year;
-    selectedMonth.innerText = nameMonth[month];
+    selectedMonth.innerText = nameMonth[mese - 1];
 
     let div = document.getElementById("event-list-bar");
 
@@ -169,8 +161,8 @@ function visualEvent(mese, giorno) {
                 if (xhr.responseText === "true") {
                     // TODO: Vedere cosa passare alla funzione 
                     // in base alla logica che si vuole adottare
-                    // let list = getEventList(mese, giorno);
-                    // div.appendChild(list);
+                    let list = getEventList(mese, giorno);
+                    div.appendChild(list);
                 }
             } else {
                 console.error("Errore nella richiesta: " + xhr.status);
@@ -178,24 +170,73 @@ function visualEvent(mese, giorno) {
         }
     };
     // TODO: Realizzare il php e capire cosa richiedere al server
-    xhr.send();
+    xhr.send("data=" + year + "-" + mese + "-" + giorno);   
     
 }
-function getEventList(/*Passaggio parametri da ragionare*/){
+function getEventList(mese, giorno){
     // TODO: Da ragionare le AJAX e richiamare la funzione 
     // createEventDiv() all'interno dell'opportuno ciclo
-    // codice...
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "../includes/visualizza_eventi.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var eventi = JSON.parse(xhr.responseText);
+                var eventList = document.querySelector(".event-list");
+    
+                if (eventList) {
+                    eventList.innerHTML = "";
+    
+                    if (eventi.length > 0) {
+                        let i = 0;
+                        eventi.forEach(function(element) {
+                            eventList.appendChild(createEventDiv(element, i, mese, giorno));
+                            i++;
+                        });
+                    } else {
+                        eventList.textContent = "Non ci sono eventi programmati per questo giorno.";
+                    }
+                } else {
+                    console.error("Elemento con classe 'event-list' non trovato.");
+                }
+            } else {
+                console.error("Errore nella richiesta: " + xhr.status);
+            }
+        }
+    };
+    xhr.send("data=" + year + "-" + mese + "-" + giorno);
+
 }
 
     //Elimina un evento
-function eliminaEvento(id) {
+function eliminaEvento(event, id, data) {
     var eventDiv = document.getElementById("event-" + id);
     eventDiv.remove();
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "../includes/elimina_evento.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                if (xhr.responseText === "success") {
+                    console.log("Evento eliminato con successo");
+                } else {
+                    console.error("Errore durante l'eliminazione dell'evento: " + xhr.responseText);
+                }
+            } else {
+                console.error("Errore nella richiesta: " + xhr.status);
+            }
+        }
+    };
+    
+    xhr.send("titolo=" + event.titolo + "&data=" + data + "&ora=" + event.ora);
 }
 
-    // Crea gli eventi da aggiungere alla lista
-function createEventDiv(evento, id) {
-    // TODO: Sistemare in base alla funzione getEventList()
+    // Crea gli eventi da aggiungere alla lista 
+function createEventDiv(evento, id, mese, giorno) {
+    // TODO: Da sistemare l'implementazione
     var eventDiv = document.createElement("div");
     eventDiv.id = "event-" + id;
     eventDiv.classList.add("event-item");
@@ -209,10 +250,11 @@ function createEventDiv(evento, id) {
     clock.textContent = evento.ora;
 
     var icon = document.createElement("button");
-    icon.className = "event-icon";
-    icon.textContent = "Elimina";
+    icon.type = "button";
+    icon.classList.add("event-icon");
     icon.onclick = function() {
-        eliminaEvento(id);
+        let date = year + "-" + mese + "-" + giorno;
+        eliminaEvento(evento, id, date);
     };
     eventDiv.appendChild(title);
     eventDiv.appendChild(clock);
