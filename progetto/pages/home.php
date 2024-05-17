@@ -91,5 +91,5 @@
         </div>
     </div>
 </body>
-    <script src="../script/change_month_test.js"></script>
+    <script src="../script/change_month.js"></script>
 </html>
