@@ -11,11 +11,14 @@ CREATE TABLE utenti (
 CREATE TABLE note(
     ID INT AUTO_INCREMENT PRIMARY KEY,
     titolo VARCHAR(100),
-    data_evento DATE
+    data_evento DATE,
+    ora_evento TIME,
+    ultima_modifica DATETIME default NOW()
 );
 
 CREATE TABLE utenti_note (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     ID_nota INT,
-    ID_utente INT
+    ID_utente INT,
+    ruolo VARCHAR(30)
 );

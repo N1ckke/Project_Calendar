@@ -236,20 +236,53 @@ function eliminaEvento(event, id, data) {
 
     // Crea gli eventi da aggiungere alla lista 
 function createEventDiv(evento, id, mese, giorno) {
-    // TODO: Da sistemare l'implementazione
+
     let eventDiv = document.createElement("div");
     eventDiv.id = "event-" + id;
     eventDiv.classList.add("event-item");
 
-    let title = document.createElement("div");
-    title.classList.add("event-text")
+    var title = document.createElement("div");
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "../includes/controlla_ruolo.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                title.classList.add("collaboratore");
+                    //TODO: Da rivedere il funzionamento del onmouseover
+                // xhr = new XMLHttpRequest();
+                // xhr.open("POST", "../includes/controlla_creatore.php", true);
+                // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                // xhr.onreadystatechange = function() {
+                //     if (xhr.readyState === XMLHttpRequest.DONE) {
+                //         if (xhr.status === 200) {
+                //             title.addEventListener("onmouseover", function() {
+                //                 title.setAttribute('title', xhr.responseText)
+                //             });
+                //         } else {
+                //             console.error("Errore nella richiesta: " + xhr.status);
+                //         }
+                //     }
+                // };
+                
+                // xhr.send("titolo=" + evento.titolo + "&data=" + year + mese + giorno + "&ora=" + evento.ora);
+            } else {
+                console.error("Errore nella richiesta: " + xhr.status);
+            }
+        }
+    };
+
+    xhr.send("Titolo=" + evento.titolo + "&data=" + year + mese + giorno + "&ora=" + evento.ora);
+
+    title.classList.add("event-text");
     title.textContent = evento.titolo;
 
     let clock = document.createElement("div");
     
     let oraEvento = evento.ora.split(':');
     let ora = oraEvento[0] + ":" + oraEvento[1];
-    
+
     clock.classList.add("event-clock");
     clock.textContent = ora;
 
