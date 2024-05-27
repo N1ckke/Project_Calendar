@@ -93,7 +93,7 @@ function createCalendar(anno, mese) {
 function checkEvents(mese, giorno, div) {
     mese++;
         // console.log(mese);
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open("POST", "../includes/controlla_eventi.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
@@ -110,7 +110,7 @@ function checkEvents(mese, giorno, div) {
 }
     //In caso siano presenti eventi aggiunge il bottone per visualizzarli
 function addButtonEvent(div, mese, giorno) {
-    var btn_event = document.createElement("button");
+    let btn_event = document.createElement("button");
     btn_event.className = "visual-event";
     btn_event.onclick = function() {
         visualEvent(mese, giorno);
@@ -152,7 +152,7 @@ function visualEvent(mese, giorno) {
 
     let div = document.getElementById("event-list-bar");
 
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open("POST", "../includes/controlla_eventi.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
@@ -176,21 +176,21 @@ function visualEvent(mese, giorno) {
 function getEventList(mese, giorno){
     // TODO: Da ragionare le AJAX e richiamare la funzione 
     // createEventDiv() all'interno dell'opportuno ciclo
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open("POST", "../includes/visualizza_eventi.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
-                var eventi = JSON.parse(xhr.responseText);
-                var eventList = document.querySelector(".event-list");
+                let eventi = JSON.parse(xhr.responseText);
+                let eventList = document.querySelector(".event-list");
     
                 if (eventList) {
                     eventList.innerHTML = "";
     
                     if (eventi.length > 0) {
                         let i = 0;
-                        eventi.forEach(function(element) {
+                        eventi.forEach(function(element) { 
                             eventList.appendChild(createEventDiv(element, i, mese, giorno));
                             i++;
                         });
@@ -211,10 +211,10 @@ function getEventList(mese, giorno){
 
     //Elimina un evento
 function eliminaEvento(event, id, data) {
-    var eventDiv = document.getElementById("event-" + id);
+    let eventDiv = document.getElementById("event-" + id);
     eventDiv.remove();
     
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open("POST", "../includes/elimina_evento.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
@@ -237,19 +237,23 @@ function eliminaEvento(event, id, data) {
     // Crea gli eventi da aggiungere alla lista 
 function createEventDiv(evento, id, mese, giorno) {
     // TODO: Da sistemare l'implementazione
-    var eventDiv = document.createElement("div");
+    let eventDiv = document.createElement("div");
     eventDiv.id = "event-" + id;
     eventDiv.classList.add("event-item");
 
-    var title = document.createElement("div");
+    let title = document.createElement("div");
     title.classList.add("event-text")
     title.textContent = evento.titolo;
 
-    var clock = document.createElement("div");
+    let clock = document.createElement("div");
+    
+    let oraEvento = evento.ora.split(':');
+    let ora = oraEvento[0] + ":" + oraEvento[1];
+    
     clock.classList.add("event-clock");
-    clock.textContent = evento.ora;
+    clock.textContent = ora;
 
-    var icon = document.createElement("button");
+    let icon = document.createElement("button");
     icon.type = "button";
     icon.classList.add("event-icon");
     icon.onclick = function() {
