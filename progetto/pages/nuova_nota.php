@@ -53,7 +53,7 @@
             <label class="form-label">vuoi condividere la nota?</label>
             <input type="text" name="condivisioni" class="form-control">
             <div id="shareHelpBlock" class="sub-text">
-            traduci in inglese: scrivi le mail di chi potrà vedere questa nota. 
+            scrivi le mail di chi potrà vedere questa nota. 
             se devi scrivere più mail separa le varie mail con uno spazio, sennò il programma non funzionerà e la nota non verrà condivisa
             </div>
 
